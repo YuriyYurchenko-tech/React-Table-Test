@@ -23,9 +23,9 @@ const App: React.FC = () => {
       <Header />
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/React-Table-Test/" element={<LoginPage />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/table" element={<TablePage />} />
+            <Route path="/React-Table-Test/table" element={<TablePage />} />
           </Route>
         </Routes>
       </main>
