@@ -1,0 +1,13 @@
+.pageContainer {
+    padding: 16px;
+  }
+  
+  .actionsContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  
+  .addButton {
+    margin-right: 16px;
+  }
