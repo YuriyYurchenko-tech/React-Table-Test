@@ -30,7 +30,6 @@ export const CustomTable: React.FC<CustomTableProps> = ({
   tableData,
   loading,
   error,
-  isSyncing,
   onEdit,
   onDelete,
   onRefresh,

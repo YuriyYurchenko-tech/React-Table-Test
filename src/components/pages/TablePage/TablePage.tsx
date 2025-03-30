@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Box, CircularProgress } from '@mui/material';
 import { useTable } from '../../../hooks/useTable';
-import { useAuth } from '../../../hooks/useAuth';
 import { CustomTable } from '../../ui/CustomTable/CustomTable';
 import { DialogModal } from '../../ui/DialogModal/DialogModal';
 import styles from './TablePage.module.css';
-import { DocumentFormDataType } from '../../../types/documentTypes';
+import type { DocumentFormDataType, DocumentDataType } from '../../../types/documentTypes';
 
 export default function TablePage(): React.JSX.Element {
   const {
@@ -18,13 +17,11 @@ export default function TablePage(): React.JSX.Element {
     handleDeleteRow,
     fetchTableData,
   } = useTable();
-  
-  const { handleLogout } = useAuth();
 
   const [openDialog, setOpenDialog] = useState(false);
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const [editData, setEditData] = useState<DocumentFormDataType | null>(null);
-  const [newRow, setNewRow] = useState<DocumentFormDataType>({
+  const [editData, setEditData] = useState<DocumentDataType | null>(null);
+  const [newRow, setNewRow] = useState<Omit<DocumentFormDataType, 'id' | 'companySigDate' | 'employeeSigDate'>>({
     companySignatureName: '',
     documentName: '',
     documentStatus: '',
@@ -34,16 +31,16 @@ export default function TablePage(): React.JSX.Element {
   });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  const validateForm = (data: DocumentFormDataType) => {
+  const validateForm = (data: Omit<DocumentFormDataType, 'id' | 'companySigDate' | 'employeeSigDate'>) => {
     const errors: Record<string, string> = {};
-    const allFields: (keyof DocumentFormDataType)[] = [
+    const allFields = [
       'companySignatureName',
       'documentName',
       'documentStatus',
       'documentType',
       'employeeNumber',
       'employeeSignatureName'
-    ];
+    ] as const;
   
     allFields.forEach((field) => {
       if (!data[field]) {
@@ -100,7 +97,7 @@ export default function TablePage(): React.JSX.Element {
     }
   };
 
-  const handleChange = (field: keyof DocumentFormDataType, value: string) => {
+  const handleChange = (field: keyof Omit<DocumentFormDataType, 'id' | 'companySigDate' | 'employeeSigDate'>, value: string) => {
     if (openDialog && editData) {
       setEditData({ ...editData, [field]: value });
     } else {
@@ -141,7 +138,7 @@ export default function TablePage(): React.JSX.Element {
         open={openDialog}
         onClose={() => setOpenDialog(false)}
         title="Edit Document"
-        data={editData || newRow}
+        data={editData || { ...newRow, id: '', companySigDate: '', employeeSigDate: '' }}
         onChange={handleChange}
         onSubmit={handleUpdateSubmit}
         formErrors={formErrors}

@@ -1,12 +1,6 @@
 import axios from 'axios';
 import type { DocumentDataType, DocumentFormDataType } from '../types/documentTypes';
 
-interface ApiResponse {
-  data: {
-    data: DocumentDataType[];
-  };
-}
-
 const API_URL = 'https://test.v5.pryaniky.com/ru/data/v3/testmethods/docs';
 
 export const fetchTableData = async (): Promise<DocumentDataType[]> => {
@@ -15,12 +9,12 @@ export const fetchTableData = async (): Promise<DocumentDataType[]> => {
     throw new Error('No token found');
   }
   try {
-    const response = await axios.get<ApiResponse>(`${API_URL}/userdocs/get`, {
+    const response = await axios.get<{data: DocumentDataType[]}>(`${API_URL}/userdocs/get`, {
       headers: {
         'x-auth': token,
       },
     });
-    console.log('Fetched table data:', response.data);
+    console.log('Fetched table data:', response.data.data);
     return response.data.data;
   } catch (error) {
     console.error('Failed to fetch table data:', error);
@@ -28,7 +22,7 @@ export const fetchTableData = async (): Promise<DocumentDataType[]> => {
   }
 };
 
-export const addTableRow = async (rowData: DocumentFormDataType ): Promise<DocumentDataType> => {
+export const addTableRow = async (rowData: DocumentFormDataType): Promise<DocumentDataType> => {
   const token = localStorage.getItem('token');
   if (!token) throw new Error('No token found');
   
@@ -71,7 +65,7 @@ export const updateTableRow = async (id: DocumentDataType['id'], rowData: Partia
   }
 };
 
-export const deleteTableRow = async (id: DocumentDataType['id']) => {
+export const deleteTableRow = async (id: DocumentDataType['id']): Promise<string> => {
   const token = localStorage.getItem('token');
   if (!token) {
     throw new Error('No token found');

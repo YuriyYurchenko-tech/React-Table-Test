@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, CircularProgress, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, CircularProgress } from '@mui/material';
 import { useAuth } from '../../../hooks/useAuth';
 import styles from './LoginPage.module.css';
-import Header from '../../ui/Header/Header';
 
 export default function LoginPage(): React.JSX.Element {
   const [username, setUsername] = useState('');

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { RootState, AppDispatch } from '../redux/store';
 import { addRow, updateRow, deleteRow, fetchData } from '../redux/table/tableAsyncThunk';
-import { DocumentDataType, DocumentFormDataType } from '../types/documentTypes';
+import type { DocumentDataType } from '../types/documentTypes';
 
 export const useTable = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { data, loading, error } = useSelector((state: RootState) => state.table);
   const [isSyncing, setIsSyncing] = useState(false);
 
@@ -13,7 +13,7 @@ export const useTable = () => {
     dispatch(fetchData());
   }, [dispatch]);
 
-  const handleAddRow = async (newRow: DocumentFormDataType) => {
+  const handleAddRow = async (newRow: Omit<DocumentDataType, 'id'>) => {
     try {
       setIsSyncing(true);
       const fullNewRow = {
