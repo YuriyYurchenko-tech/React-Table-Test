@@ -5,6 +5,6 @@ import { RootState } from '../redux/store';
 
 export default function ProtectedRoute(): React.JSX.Element {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  return isAuthenticated ? <Outlet /> : <Navigate to="/React-Table-Test/" />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 

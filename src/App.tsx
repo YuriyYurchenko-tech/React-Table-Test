@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { useEffect } from 'react';
+import { useRoutes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setToken } from './redux/auth/authSlice';
 import LoginPage from './components/pages/LoginPage/LoginPage';
@@ -8,7 +9,7 @@ import ProtectedRoute from './HOCs/ProtectedRoute';
 import Header from './components/ui/Header/Header';
 import './App.css';
 
-const App: React.FC = () => {
+function App(): React.JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,19 +19,24 @@ const App: React.FC = () => {
     }
   }, [dispatch]);
 
+  const routes = useRoutes([
+    { path: '/', element: <LoginPage /> },
+    { 
+      element: <ProtectedRoute />,
+      children: [
+        { path: '/table', element: <TablePage /> }
+      ]
+    }
+  ]);
+
   return (
     <div className="app">
       <Header />
       <main className="main-content">
-        <Routes>
-          <Route path="/React-Table-Test/" element={<LoginPage />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/React-Table-Test/table" element={<TablePage />} />
-          </Route>
-        </Routes>
+        {routes}
       </main>
     </div>
   );
-};
+}
 
 export default App;

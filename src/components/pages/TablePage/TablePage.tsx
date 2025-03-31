@@ -58,6 +58,7 @@ export default function TablePage(): React.JSX.Element {
       return;
     }
     
+    setOpenAddDialog(false);
     try {
       await handleAddRow({
         ...newRow,
@@ -72,10 +73,10 @@ export default function TablePage(): React.JSX.Element {
         employeeNumber: '',
         employeeSignatureName: ''
       });
-      setOpenAddDialog(false);
       setFormErrors({});
     } catch (err) {
       console.error('Add row error:', err);
+      setOpenAddDialog(true);
     }
   };
 
@@ -88,12 +89,13 @@ export default function TablePage(): React.JSX.Element {
       return;
     }
 
+    setOpenDialog(false);
     try {
       await handleUpdateRow(editData.id, editData);
-      setOpenDialog(false);
       setFormErrors({});
     } catch (err) {
       console.error('Update row error:', err);
+      setOpenDialog(true);
     }
   };
 

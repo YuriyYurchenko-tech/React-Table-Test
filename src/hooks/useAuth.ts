@@ -20,7 +20,7 @@ export const useAuth = () => {
       setError(null);
       const response = await login(username, password);
       dispatch(setToken(response.data.token));
-      navigate('/React-Table-Test/table');
+      navigate('/table');
     } catch (err) {
       setError('Invalid credentials');
       console.error('Login error:', err);
@@ -31,7 +31,7 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/React-Table-Test/');
+    navigate('/');
   };
 
   return { 

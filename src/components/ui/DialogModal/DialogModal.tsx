@@ -73,7 +73,7 @@ export const DialogModal: React.FC<DocumentDialogProps> = ({
           color="primary"
           disabled={!isFormValid}
         >
-          {isEdit ? 'Save Changes' : 'Add Document'}
+          {isEdit ? 'Save Changes' : 'Add Row'}
         </Button>
       </DialogActions>
     </Dialog>
